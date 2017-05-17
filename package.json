@@ -1,0 +1,20 @@
+{
+  "name": "letmesee",
+  "version": "1.0.0",
+  "description": "mongodb stats viewer with typescript",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon ./bin/www",
+    "grunt": "grunt",
+    "start": "node ./bin/www"
+  },
+  "author": "DomDumont",
+  "license": "MIT",
+  "dependencies": {
+    "@types/body-parser": "^1.16.3",
+    "@types/express": "^4.0.35",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2"
+  },
+  "devDependencies": {}
+}
