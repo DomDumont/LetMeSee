@@ -1,12 +1,30 @@
 // src/app.ts
 
-var express = require('express');
-var app = express();
+import http = require("http");
+import { Server } from "./server";
 
-app.get('/', function(req, res) {
-  res.send('Hello World bis!'); 
-});
+let myApp = new Server();
 
-app.listen(3000, function() {
-  console.log('Example app listening on port 3000!');
-});
+let httpServer = http.createServer(myApp.app);
+
+httpServer.on("listening", onListening);
+
+httpServer.listen(3000, '127.0.0.1');
+httpServer.on("error",onError);
+
+
+
+function onListening() {
+  var addr = httpServer.address();
+  var bind = typeof addr === "string"
+    ? "pipe " + addr
+    : "port " + addr.port;
+  console.log("Listening on " + bind);
+}
+
+
+function onError(err: Error)
+{
+  console.error(err.message);
+  console.error(err.stack);
+}
