@@ -1,10 +1,9 @@
 import * as express from "express";
 
-export class Server
-{
-  public app: express.Application; 
+export class Server {
+  public app: express.Application;
 
-    constructor() {
+  constructor() {
     //create expressjs application
     this.app = express();
 
@@ -18,16 +17,22 @@ export class Server
     this.api();
   }
 
-     public api() {
+  /**
+   * 
+   * 
+   * 
+   * @memberof Server
+   */
+  public api() {
     //empty for now
   }
 
-  
+
   public config() {
     //empty for now
   }
 
- 
+
   public routes() {
     //empty for now
   }

@@ -14,6 +14,10 @@ httpServer.on("error",onError);
 
 
 
+/**
+ * Called when the server starts listening
+ * 
+ */
 function onListening() {
   var addr = httpServer.address();
   var bind = typeof addr === "string"
@@ -23,6 +27,11 @@ function onListening() {
 }
 
 
+/**
+ * Called when there is an error
+ * 
+ * @param {Error} err 
+ */
 function onError(err: Error)
 {
   console.error(err.message);
