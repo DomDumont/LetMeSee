@@ -1,17 +1,37 @@
 import * as express from "express";
 import * as path from "path";
-import { IndexRoute } from "./routes/index";
+
 
 import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
 import * as logger from "morgan";
 import errorHandler = require("errorhandler");
 import methodOverride = require("method-override");
+import mongoose = require("mongoose"); //import mongoose
+
+//routes
+
+import { IndexRoute } from "./routes/index";
+
+//interfaces
+import { IUser } from "./interfaces/user"; //import IUser
+
+//models
+import { IModel } from "./models/model"; //import IModel
+import { IUserModel } from "./models/user"; //import IUserModel
+
+//schemas
+import { userSchema } from "./schemas/user"; //import userSchema
+
 
 export class Server {
   public app: express.Application;
+  private model: IModel; //an instance of IModel
 
   constructor() {
+
+    this.model = new Object(); //initialize this to an empty object
+
     //create expressjs application
     this.app = express();
 
@@ -39,6 +59,8 @@ export class Server {
 
   public config() 
   {
+    const MONGODB_CONNECTION: string = "mongodb://localhost:27017/lms";
+
     //add static paths
     this.app.use(express.static(path.join(__dirname, "public")));
 
@@ -62,6 +84,18 @@ export class Server {
 
     //use override middlware
     this.app.use(methodOverride());
+
+   //use q promises
+    global.Promise = require("q").Promise;
+    mongoose.Promise = global.Promise;
+
+
+    //connect to mongoose
+    let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION);
+
+    //create models
+    this.model.user = connection.model<IUserModel>("User", userSchema);
+
 
     //catch 404 and forward to error handler
     this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
