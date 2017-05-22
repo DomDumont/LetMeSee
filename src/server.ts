@@ -30,7 +30,7 @@ export class Server {
 
   constructor() {
 
-    this.model = new Object(); //initialize this to an empty object
+    this.model = Object(); //initialize this to an empty object
 
     //create expressjs application
     this.app = express();

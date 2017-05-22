@@ -38,13 +38,16 @@ describe("User", function() {
         result._id.should.exist;
 
         //verify email
+        if (result.email)
         result.email.should.equal(user.email);
 
         //verify firstName
-        result.firstName.should.equal(user.firstName);
+        if (result.firstName)
+          result.firstName.should.equal(user.firstName);
 
         //verify lastName
-        result.lastName.should.equal(user.lastName);
+        if (result.lastName)
+          result.lastName.should.equal(user.lastName);
       })
     });
   });
