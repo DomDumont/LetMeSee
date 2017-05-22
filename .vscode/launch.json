@@ -10,7 +10,7 @@
             "name": "Launch Program",
             "program": "${workspaceRoot}/src/app.ts",
             "outFiles": [
-                "${workspaceRoot}/out/**/*.js"
+                "${workspaceRoot}/dist/**/*.js"
             ]
         }
     ]
