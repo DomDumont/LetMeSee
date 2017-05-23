@@ -12,6 +12,7 @@ import mongoose = require("mongoose"); //import mongoose
 //routes
 
 import { IndexRoute } from "./routes/index";
+import { UsersRoute } from "./routes/users";
 
 //interfaces
 import { IUser } from "./interfaces/user"; //import IUser
@@ -109,13 +110,18 @@ export class Server {
   }
 
 
-  public routes() {
+  public routes() 
+  {
     //empty for now
-     let router: express.Router;
+    let router: express.Router;
     router = express.Router();
 
     //IndexRoute
     IndexRoute.create(router);
+
+    //UsersRoute
+    UsersRoute.create(router);
+    
 
     //use router middleware
     this.app.use(router);
