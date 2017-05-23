@@ -13,7 +13,7 @@ import mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
 //connect to mongoose and create model
-const MONGODB_CONNECTION: string = "mongodb://localhost:27017/heros";
+const MONGODB_CONNECTION: string = "mongodb://localhost:27017/lms";
 let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION);
 var User: mongoose.Model<IUserModel> = connection.model<IUserModel>("User", userSchema);
 
@@ -21,10 +21,12 @@ var User: mongoose.Model<IUserModel> = connection.model<IUserModel>("User", user
 let chai = require("chai");
 chai.should();
 
-describe("User", function() {
-
-  describe("create()", function () {
-    it("should create a new User", function () {
+describe("User", function() 
+  {
+  describe("create()", function () 
+    {
+    it("should create a new User", function () 
+      {
       //user object
       let user: IUser = {
         email: "foo@bar.com",
