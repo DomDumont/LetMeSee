@@ -56,7 +56,7 @@ export class Server {
   public api() 
   {
     //empty for now
-     console.log("api");
+     console.log("api 23");
   }
 
 
