@@ -8,6 +8,8 @@ import * as logger from "morgan";
 import errorHandler = require("errorhandler");
 import methodOverride = require("method-override");
 import mongoose = require("mongoose"); //import mongoose
+import * as flash from "express-flash";
+import * as session from "express-session";
 
 //routes
 
@@ -87,6 +89,14 @@ export class Server {
 
     //use override middlware
     this.app.use(methodOverride());
+
+this.app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET,
+}));
+
+    this.app.use(flash());
 
    //use q promises
     global.Promise = require("q").Promise;

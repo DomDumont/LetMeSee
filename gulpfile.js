@@ -62,6 +62,7 @@ gulp.task('watch', function ()
     {
     gulp.watch(source + '/src/**/*.ts', ['build']);
     gulp.watch(source + '/src/views/*.pug', ['copyviews']);
+    gulp.watch(source + '/src/public/**/*', ['copypublic']);
     gulp.watch(source + '/src/styles/**/*.less', ['less']);
     }); 
 
@@ -76,10 +77,14 @@ gulp.task('build', function () {
 
 
 gulp.task('copyviews', function () {
- return gulp.src(source + '/src/views/*.pug')
+ return gulp.src(source + '/src/views/**/*.pug')
     .pipe(gulp.dest(destination + '/views/'));
  });
 
+gulp.task('copypublic', function () {
+ return gulp.src(source + '/src/public/**/*')
+    .pipe(gulp.dest(destination + '/public/'));
+ });
 
 gulp.task('test', function() {
     return gulp.src([destination + '/tests/*.js'], { read: false })
