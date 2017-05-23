@@ -53,8 +53,10 @@ export class Server {
    * 
    * @memberof Server
    */
-  public api() {
+  public api() 
+  {
     //empty for now
+     console.log("api");
   }
 
 

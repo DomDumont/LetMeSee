@@ -36,11 +36,16 @@
     "@types/mongodb": "^2.2.2",
     "@types/mongoose": "^4.7.13",
     "@types/morgan": "^1.7.32",
+    "browser-sync": "^2.18.12",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
+    "gulp-less": "^3.3.0",
     "gulp-load-plugins": "^1.5.0",
     "gulp-mocha": "^4.3.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-tsb": "^2.0.3",
     "gulp-util": "^3.0.8",
-    "mocha": "^3.4.1"
+    "mocha": "^3.4.1",
+    "typescript": "^2.3.3"
   }
 }
