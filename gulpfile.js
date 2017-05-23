@@ -27,7 +27,7 @@ gulp.task('browser-sync', ['nodemon', 'watch'], function () {
 // compile less files from the ./styles folder
 // into css files to the ./public/stylesheets folder
 gulp.task('less', function () {
-    return gulp.src(source + 'src/styles/**/*.less')
+    return gulp.src(source + '/src/styles/**/*.less')
         .pipe(plugins.less({
             paths: [path.join(__dirname, 'less', 'includes')]
         }))
@@ -61,6 +61,7 @@ gulp.task('nodemon', function (cb) {
 gulp.task('watch', function () 
     {
     gulp.watch(source + '/src/**/*.ts', ['build']);
+    gulp.watch(source + '/src/views/*.pug', ['copyviews']);
     gulp.watch(source + '/src/styles/**/*.less', ['less']);
     }); 
 
