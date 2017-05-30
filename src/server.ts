@@ -15,6 +15,7 @@ import * as session from "express-session";
 
 import { IndexRoute } from "./routes/index";
 import { UsersRoute } from "./routes/users";
+import { TranslateRoute } from "./routes/translate";
 
 //interfaces
 import { IUser } from "./interfaces/user"; //import IUser
@@ -133,6 +134,8 @@ this.app.use(session({
 
     //UsersRoute
     UsersRoute.create(router);
+
+    TranslateRoute.create(router);
     
 
     //use router middleware
