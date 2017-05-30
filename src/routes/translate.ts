@@ -99,12 +99,23 @@ export class TranslateRoute extends BaseRoute {
     let result = ""
     for(let i= 0; i < words.length; i++)
     {
-      result += this.Reverse(words[i])
+      result += this.TranslateThisWord(words[i])
       result += " "
     }
     return result
   }
 
+  public TranslateThisWord(thisWord)
+  {
+    if (thisWord[0] === thisWord[0].toUpperCase())
+      {
+      return thisWord
+      }
+    else
+      {
+      return this.Reverse(thisWord)
+      }
+  }
   public Reverse(s)
   {
     return s.split("").reverse().join("");
