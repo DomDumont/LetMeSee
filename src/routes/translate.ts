@@ -80,9 +80,29 @@ export class TranslateRoute extends BaseRoute {
     this.render(req, res, "translate", options);
   }
   
-  public TranslateThis(toto)
+  // https://stackoverflow.com/questions/64904/parsings-strings-extracting-words-and-phrases-javascript
+  public TranslateThis(thisText)
   {
-    return this.Reverse(toto)
+    let lines = thisText.split(/[\r\n]+/g);
+    let result = ""
+    for(let i= 0; i < lines.length; i++)
+    {
+      result += this.TranslateThisLine(lines[i])
+      result += "\n"
+    }
+    return result
+  }
+
+  public TranslateThisLine(thisLine)
+  {
+    let words = thisLine.match(/("[^"]+"|[^"\s]+)/g);
+    let result = ""
+    for(let i= 0; i < words.length; i++)
+    {
+      result += this.Reverse(words[i])
+      result += " "
+    }
+    return result
   }
 
   public Reverse(s)
