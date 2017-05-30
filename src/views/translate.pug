@@ -7,7 +7,7 @@ block content
         h1.display-4.m-b-2 Sign Up
 
         // register form
-        form(method='POST' action='/register')
+        form(method='POST' action='')
           div.form-group
             label(for='name') Name:            
           
@@ -16,3 +16,6 @@ block content
             fuga
             piyo
           button.btn.btn-primary(type='submit') Coucou
+          textarea(rows=3).form-control.
+            #{response}
+
