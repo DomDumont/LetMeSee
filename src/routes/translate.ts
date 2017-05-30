@@ -107,13 +107,17 @@ export class TranslateRoute extends BaseRoute {
 
   public TranslateThisWord(thisWord)
   {
-    if (thisWord[0] === thisWord[0].toUpperCase())
+    var s = thisWord
+    var punctuationless = s.replace(/['.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    var finalString = punctuationless.replace(/\s{2,}/g," ");
+
+    if (finalString[0] === finalString[0].toUpperCase())
       {
-      return thisWord
+      return finalString
       }
     else
       {
-      return this.Reverse(thisWord)
+      return this.Reverse(finalString)
       }
   }
   public Reverse(s)
