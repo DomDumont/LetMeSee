@@ -73,11 +73,20 @@ export class TranslateRoute extends BaseRoute {
     //set options
     let options: Object = {
       "message": "Translate Post",
-      "response":"oh yeah"
+      "response": this.TranslateThis(req.body.input1)
     };
 
     //render template
     this.render(req, res, "translate", options);
   }
   
+  public TranslateThis(toto)
+  {
+    return this.Reverse(toto)
+  }
+
+  public Reverse(s)
+  {
+    return s.split("").reverse().join("");
+  }
 }
