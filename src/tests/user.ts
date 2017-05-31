@@ -1,7 +1,12 @@
 import "mocha";
+import { should } from 'chai';
+
+
 import { IUser } from "../interfaces/user";
 import { IUserModel } from "../models/user";
 import { userSchema } from "../schemas/user";
+
+
 
 //use q promises
 global.Promise = require("q").Promise;
@@ -18,8 +23,7 @@ let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTI
 var User: mongoose.Model<IUserModel> = connection.model<IUserModel>("User", userSchema);
 
 //require chai and use should() assertions
-let chai = require("chai");
-chai.should();
+should()
 
 describe("User", function() 
   {
