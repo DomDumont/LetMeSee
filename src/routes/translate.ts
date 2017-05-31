@@ -2,6 +2,8 @@ import { NextFunction, Request, Response, Router } from "express";
 import { BaseRoute } from "./route";
 
 
+var debug = require("debug")("rototo");
+
 /**
  * / route
  *
@@ -52,6 +54,7 @@ export class TranslateRoute extends BaseRoute {
    */
   public index(req: Request, res: Response, next: NextFunction) 
   {
+    debug ("yep this is the index");
     //set custom title
     this.title = "Translate | LetMeSee";
 
@@ -95,6 +98,7 @@ export class TranslateRoute extends BaseRoute {
 
   public TranslateThisLine(thisLine)
   {
+    debug("TranslateThisLine")
     let words = thisLine.match(/("[^"]+"|[^"\s]+)/g);
     let result = ""
     for(let i= 0; i < words.length; i++)
@@ -107,6 +111,7 @@ export class TranslateRoute extends BaseRoute {
 
   public TranslateThisWord(thisWord)
   {
+    debug("TranslateThisWord")
     var s = thisWord
     var punctuationless = s.replace(/['.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
     var finalString = punctuationless.replace(/\s{2,}/g," ");

@@ -9,6 +9,9 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceRoot}/src/www.ts",
+             "env": {
+                "DEBUG": "rototo"
+            },
             "outFiles": [
                 "${workspaceRoot}/dist/**/*.js"
             ]
