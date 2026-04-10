@@ -1,0 +1,60 @@
+diff --git a/node_modules/proxy-from-env/index.cjs b/node_modules/proxy-from-env/index.cjs
+index ede2a9f..1d62482 100644
+--- a/node_modules/proxy-from-env/index.cjs
++++ b/node_modules/proxy-from-env/index.cjs
+@@ -36,6 +36,13 @@ function getProxyForUrl(url) {
+   // Stripping ports in this way instead of using parsedUrl.hostname to make
+   // sure that the brackets around IPv6 addresses are kept.
+   hostname = hostname.replace(/:\d*$/, '');
++  // Normalize hostname per RFC 1034 §3.1 and RFC 3986 §3.2.2:
++  // strip trailing dot (FQDN form, e.g. "localhost." == "localhost") and
++  // strip brackets from IPv6 literals (e.g. "[::1]" -> "::1").
++  hostname = hostname.replace(/\.$/, '');
++  if (hostname.charAt(0) === '[' && hostname.charAt(hostname.length - 1) === ']') {
++    hostname = hostname.slice(1, -1);
++  }
+   port = parseInt(port) || DEFAULT_PORTS[proto] || 0;
+   if (!shouldProxy(hostname, port)) {
+     return '';  // Don't proxy URLs that match NO_PROXY.
+@@ -72,6 +79,11 @@ function shouldProxy(hostname, port) {
+     }
+     var parsedProxy = proxy.match(/^(.+):(\d+)$/);
+     var parsedProxyHostname = parsedProxy ? parsedProxy[1] : proxy;
++    // Normalize NO_PROXY entry the same way as the request hostname.
++    parsedProxyHostname = parsedProxyHostname.replace(/\.$/, '');
++    if (parsedProxyHostname.charAt(0) === '[' && parsedProxyHostname.charAt(parsedProxyHostname.length - 1) === ']') {
++      parsedProxyHostname = parsedProxyHostname.slice(1, -1);
++    }
+     var parsedProxyPort = parsedProxy ? parseInt(parsedProxy[2]) : 0;
+     if (parsedProxyPort && parsedProxyPort !== port) {
+       return true;  // Skip if ports don't match.
+diff --git a/node_modules/proxy-from-env/index.js b/node_modules/proxy-from-env/index.js
+index 333f45a..9a51bec 100644
+--- a/node_modules/proxy-from-env/index.js
++++ b/node_modules/proxy-from-env/index.js
+@@ -36,6 +36,13 @@ export function getProxyForUrl(url) {
+   // Stripping ports in this way instead of using parsedUrl.hostname to make
+   // sure that the brackets around IPv6 addresses are kept.
+   hostname = hostname.replace(/:\d*$/, '');
++  // Normalize hostname per RFC 1034 §3.1 and RFC 3986 §3.2.2:
++  // strip trailing dot (FQDN form, e.g. "localhost." == "localhost") and
++  // strip brackets from IPv6 literals (e.g. "[::1]" -> "::1").
++  hostname = hostname.replace(/\.$/, '');
++  if (hostname.charAt(0) === '[' && hostname.charAt(hostname.length - 1) === ']') {
++    hostname = hostname.slice(1, -1);
++  }
+   port = parseInt(port) || DEFAULT_PORTS[proto] || 0;
+   if (!shouldProxy(hostname, port)) {
+     return '';  // Don't proxy URLs that match NO_PROXY.
+@@ -72,6 +79,11 @@ function shouldProxy(hostname, port) {
+     }
+     var parsedProxy = proxy.match(/^(.+):(\d+)$/);
+     var parsedProxyHostname = parsedProxy ? parsedProxy[1] : proxy;
++    // Normalize NO_PROXY entry the same way as the request hostname.
++    parsedProxyHostname = parsedProxyHostname.replace(/\.$/, '');
++    if (parsedProxyHostname.charAt(0) === '[' && parsedProxyHostname.charAt(parsedProxyHostname.length - 1) === ']') {
++      parsedProxyHostname = parsedProxyHostname.slice(1, -1);
++    }
+     var parsedProxyPort = parsedProxy ? parseInt(parsedProxy[2]) : 0;
+     if (parsedProxyPort && parsedProxyPort !== port) {
+       return true;  // Skip if ports don't match.
