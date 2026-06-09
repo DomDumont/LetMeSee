@@ -13,16 +13,6 @@ var source = '.'; // dossier de travail
 var destination = './dist'; // dossier à livrer
 
 
-// run browser-sync on for client changes
-gulp.task('browser-sync', gulp.series('nodemon', 'watch', function () {
-    browserSync.init(null, {
-        proxy: "http://localhost:3000",
-        files: [destination +"/**/*.*", destination + "/public/**/*.*",destination +"/views/**/*.*"],
-        port: 7000,
-    });
-}));
-
-
 
 // compile less files from the ./styles folder
 // into css files to the ./public/stylesheets folder
@@ -64,6 +54,17 @@ gulp.task('watch', function () {
     gulp.watch(source + '/src/public/**/*', gulp.series('copypublic'));
     gulp.watch(source + '/src/styles/**/*.less', gulp.series('less'));
 });
+
+// run browser-sync on for client changes
+gulp.task('browser-sync', gulp.series('nodemon', 'watch', function () {
+    browserSync.init(null, {
+        proxy: "http://localhost:3000",
+        files: [destination +"/**/*.*", destination + "/public/**/*.*",destination +"/views/**/*.*"],
+        port: 7000,
+    });
+}));
+
+
 
 
 // TypeScript build for /src folder
