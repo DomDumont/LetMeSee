@@ -26,8 +26,7 @@
     "method-override": "^3.0.0",
     "mongoose": "^8.9.6",
     "morgan": "^1.10.0",
-    "pug": "^3.0.3",
-    "q": "^1.5.1"
+    "pug": "^3.0.3"
   },
   "overrides": {
     "braces": "^3.0.3",

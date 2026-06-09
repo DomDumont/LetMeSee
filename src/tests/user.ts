@@ -8,17 +8,14 @@ import { userSchema } from "../schemas/user";
 
 
 
-//use q promises
-global.Promise = require("q").Promise;
-
 //import mongoose
 import mongoose = require("mongoose");
 
-//use q library for mongoose promise
+//use native promises for mongoose
 mongoose.Promise = global.Promise;
 
 //connect to mongoose and create model
-const MONGODB_CONNECTION: string = "mongodb://localhost:27017/lms";
+const MONGODB_CONNECTION: string = process.env.MONGODB_CONNECTION || "mongodb://localhost:27017/lms";
 let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION);
 var User: mongoose.Model<IUserModel> = connection.model<IUserModel>("User", userSchema);
 
@@ -41,7 +38,7 @@ describe("User", function()
       //create user and return promise
       return new User(user).save().then(result => {
         //verify _id property exists
-        result._id.should.exist;
+        should().exist(result._id);
 
         //verify email
         if (result.email)

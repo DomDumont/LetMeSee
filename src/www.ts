@@ -22,7 +22,7 @@ function onListening() {
   var addr = httpServer.address();
   var bind = typeof addr === "string"
     ? "pipe " + addr
-    : "port " + addr.port;
+    : "port " + (addr ? addr.port : "unknown");
   console.log("Listening on " + bind);
   //Test
 }

@@ -10,6 +10,7 @@ import methodOverride = require("method-override");
 import mongoose = require("mongoose"); //import mongoose
 import * as flash from "express-flash";
 import * as session from "express-session";
+import { randomBytes } from "crypto";
 
 //routes
 
@@ -29,6 +30,8 @@ import { userSchema } from "./schemas/user"; //import userSchema
 
 
 export class Server {
+  private static readonly developmentSessionSecret = randomBytes(32).toString("hex");
+
   public app: express.Application;
   private model: IModel; //an instance of IModel
 
@@ -63,9 +66,27 @@ export class Server {
   }
 
 
+  private getSessionSecret(): string {
+    if (process.env.SESSION_SECRET) {
+      return process.env.SESSION_SECRET;
+    }
+
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("SESSION_SECRET must be defined in production.");
+    }
+
+    return Server.developmentSessionSecret;
+  }
+
+
   public config() 
   {
-    const MONGODB_CONNECTION: string = "mongodb://localhost:27017/lms";
+    const MONGODB_CONNECTION: string = process.env.MONGODB_CONNECTION || "mongodb://localhost:27017/lms";
+    const isProduction: boolean = process.env.NODE_ENV === "production";
+
+    if (isProduction) {
+      this.app.set("trust proxy", 1);
+    }
 
     //add static paths
     this.app.use(express.static(path.join(__dirname, "public")));
@@ -78,29 +99,37 @@ export class Server {
     this.app.use(logger("dev"));
 
     //use json form parser middlware
-    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.json({
+      limit: "100kb"
+    }));
 
     //use query string parser middlware
     this.app.use(bodyParser.urlencoded({
-      extended: true
+      extended: true,
+      limit: "100kb"
     }));
 
     //use cookie parker middleware middlware
-    this.app.use(cookieParser("SECRET_GOES_HERE"));
+    this.app.use(cookieParser(this.getSessionSecret()));
 
     //use override middlware
     this.app.use(methodOverride());
 
-this.app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: process.env.SESSION_SECRET,
-}));
+    this.app.use(session({
+      cookie: {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: isProduction
+      },
+      name: "lms.sid",
+      resave: false,
+      saveUninitialized: false,
+      secret: this.getSessionSecret()
+    }));
 
     this.app.use(flash());
 
-   //use q promises
-    global.Promise = require("q").Promise;
+    //use native promises
     mongoose.Promise = global.Promise;
 
 
@@ -112,9 +141,10 @@ this.app.use(session({
 
 
     //catch 404 and forward to error handler
-    this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-        err.status = 404;
-        next(err);
+    this.app.use(function(req: express.Request, res: express.Response, next: express.NextFunction) {
+      const err = new Error("Not Found") as Error & { status?: number };
+      err.status = 404;
+      next(err);
     });
 
     //error handling
